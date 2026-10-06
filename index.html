@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота: Базове керування файловою системою (Linux & Windows)</title>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; color: black; }
+            .page-break { page-break-before: always; }
+            .shadow-lg, .shadow-md { box-shadow: none !important; }
+            .border { border-color: #cbd5e1 !important; }
+        }
+        .code-block {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+    <!-- Головний контейнер -->
+    <main class="max-w-5xl mx-auto bg-white p-6 sm:p-10 rounded-xl shadow-lg border border-slate-200">
+        
+        <!-- Шапка / Інформація про студента -->
+        <header class="border-b border-slate-200 pb-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-full uppercase tracking-wider mb-2">
+                        Звіт про виконання практичної роботи
+                    </span>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">
+                        Базове керування файловою системою CLI
+                    </h1>
+                    <p class="text-slate-500 text-sm mt-1">
+                        Кросплатформенна навігація, маніпуляція файлами та директоріями (Linux / Windows)
+                    </p>
+                </div>
+                
+                <!-- Кнопки дій (приховуються при друці/збереженні в PDF) -->
+                <div class="no-print flex flex-wrap gap-2">
+                    <button onclick="window.print()" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Друк / Зберегти в PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Форма даних студента -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase">Студент / Студентка</label>
+                    <input type="text" placeholder="П.І.Б. студента" class="w-full mt-1 p-1.5 bg-white border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase">Група / Спеціальність</label>
+                    <input type="text" placeholder="напр., ІПЗ-21" class="w-full mt-1 p-1.5 bg-white border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase">Середовище виконання</label>
+                    <select class="w-full mt-1 p-1.5 bg-white border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <option>Linux Bash (Ubuntu / Debian)</option>
+                        <option>Windows PowerShell</option>
+                        <option>Windows Command Prompt (CMD)</option>
+                        <option>WSL2 (Windows Subsystem for Linux)</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Таблиця відповідності команд (Linux vs Windows) -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <i data-lucide="arrow-right-left" class="w-5 h-5 text-indigo-600"></i>
+                Кросплатформенний довідник команд
+            </h2>
+            <div class="overflow-x-auto rounded-lg border border-slate-200">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-100 border-b border-slate-200 text-slate-700 uppercase text-xs">
+                        <tr>
+                            <th class="p-3">Дія / Операція</th>
+                            <th class="p-3">Linux / Bash</th>
+                            <th class="p-3">Windows PowerShell</th>
+                            <th class="p-3">Windows CMD</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-600 code-block text-xs">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-sans font-medium text-slate-800">Поточний шлях</td>
+                            <td class="p-3 text-indigo-600">pwd</td>
+                            <td class="p-3">pwd <span class="text-slate-400">(Get-Location)</span></td>
+                            <td class="p-3">cd</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-sans font-medium text-slate-800">Зміна директорії</td>
+                            <td class="p-3 text-indigo-600">cd &lt;path&gt;</td>
+                            <td class="p-3">cd &lt;path&gt;</td>
+                            <td class="p-3">cd &lt;path&gt;</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-sans font-medium text-slate-800">Створення директорії (з вкладеними)</td>
+                            <td class="p-3 text-indigo-600">mkdir -p a/b/c</td>
+                            <td class="p-3">mkdir a/b/c</td>
+                            <td class="p-3">mkdir a\b\c</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-sans font-medium text-slate-800">Створення порожнього файлу</td>
+                            <td class="p-3 text-indigo-600">touch file.txt</td>
+                            <td class="p-3">New-Item file.txt</td>
+                            <td class="p-3">type nul &gt; file.txt</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-sans font-medium text-slate-800">Копіювання файлу</td>
+                            <td class="p-3 text-indigo-600">cp src dst</td>
+                            <td class="p-3">Copy-Item src dst</td>
+                            <td class="p-3">copy src dst</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-sans font-medium text-slate-800">Переміщення / Перейменування</td>
+                            <td class="p-3 text-indigo-600">mv src dst</td>
+                            <td class="p-3">Move-Item src dst</td>
+                            <td class="p-3">move / ren</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3 font-sans font-medium text-slate-800">Видалення рекурсивне</td>
+                            <td class="p-3 text-indigo-600">rm -r &lt;dir&gt;</td>
+                            <td class="p-3">Remove-Item -Recurse &lt;dir&gt;</td>
+                            <td class="p-3">rmdir /s &lt;dir&gt;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Фіксація виконання завдання -->
+        <section class
